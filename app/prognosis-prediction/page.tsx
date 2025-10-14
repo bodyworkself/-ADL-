@@ -57,34 +57,18 @@ function normalizeUrl(url?: string) {
 }
 
 // ---- 小 UI ----
-type WithChildren<T = {}> = T & { children?: React.ReactNode };
-
-export const Card: React.FC<WithChildren<{ className?: string }>> = ({
-  className = "",
-  children,
-}) => <div className={cx("rounded border shadow-sm bg-white", className)}>{children}</div>;
-
-export const CardContent: React.FC<WithChildren<{ className?: string }>> = ({
-  className = "",
-  children,
-}) => <div className={cx("p-4", className)}>{children}</div>;
-
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  className?: string;
-  children?: React.ReactNode;
-};
-
-export const Button: React.FC<ButtonProps> = ({ className = "", children, ...rest }) => (
-  <button
-    {...rest}
-    className={cx(
-      "inline-flex items-center gap-2 rounded border px-3 py-2 text-sm hover:bg-gray-50 active:bg-gray-100",
-      className
-    )}
-  >
-    {children}
-  </button>
+export const Card: React.FC<{ className?: string }> = ({ className, children }) => (
+  <div className={cx("rounded border shadow-sm bg-white", className)}>{children}</div>
 );
+export const CardContent: React.FC<{ className?: string }> = ({ className, children }) => (
+  <div className={cx("p-4", className)}>{children}</div>
+);
+export const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement> & { className?: string }>
+  = ({ className, children, ...rest }) => (
+    <button {...rest} className={cx("inline-flex items-center gap-2 rounded border px-3 py-2 text-sm hover:bg-gray-50 active:bg-gray-100", className)}>
+      {children}
+    </button>
+  );
 
 // Alert（型安全）
 type AlertKind = "info" | "warning" | "error" | "success";
@@ -94,7 +78,8 @@ const ALERT_STYLES: Record<AlertKind, string> = {
   error: "bg-red-50 text-red-800 border-red-200 border",
   success: "bg-green-50 text-green-800 border-green-200 border",
 };
-const Alert: React.FC<{ type?: AlertKind; className?: string }> = ({ type = "info", className, children }) => (
+type AlertProps = React.PropsWithChildren<{ type?: AlertKind; className?: string }>;
+const Alert: React.FC<AlertProps> = ({ type = "info", className, children }) => (
   <div className={cx("p-2 rounded text-sm", ALERT_STYLES[type], className)} role="alert">{children}</div>
 );
 
