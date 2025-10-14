@@ -57,18 +57,34 @@ function normalizeUrl(url?: string) {
 }
 
 // ---- 小 UI ----
-export const Card: React.FC<{ className?: string }> = ({ className, children }) => (
-  <div className={cx("rounded border shadow-sm bg-white", className)}>{children}</div>
+type WithChildren<T = {}> = T & { children?: React.ReactNode };
+
+export const Card: React.FC<WithChildren<{ className?: string }>> = ({
+  className = "",
+  children,
+}) => <div className={cx("rounded border shadow-sm bg-white", className)}>{children}</div>;
+
+export const CardContent: React.FC<WithChildren<{ className?: string }>> = ({
+  className = "",
+  children,
+}) => <div className={cx("p-4", className)}>{children}</div>;
+
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  className?: string;
+  children?: React.ReactNode;
+};
+
+export const Button: React.FC<ButtonProps> = ({ className = "", children, ...rest }) => (
+  <button
+    {...rest}
+    className={cx(
+      "inline-flex items-center gap-2 rounded border px-3 py-2 text-sm hover:bg-gray-50 active:bg-gray-100",
+      className
+    )}
+  >
+    {children}
+  </button>
 );
-export const CardContent: React.FC<{ className?: string }> = ({ className, children }) => (
-  <div className={cx("p-4", className)}>{children}</div>
-);
-export const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement> & { className?: string }>
-  = ({ className, children, ...rest }) => (
-    <button {...rest} className={cx("inline-flex items-center gap-2 rounded border px-3 py-2 text-sm hover:bg-gray-50 active:bg-gray-100", className)}>
-      {children}
-    </button>
-  );
 
 // Alert（型安全）
 type AlertKind = "info" | "warning" | "error" | "success";
