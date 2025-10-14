@@ -76,16 +76,39 @@ const Button = ({ className, children, ...rest }: any) => (
     {children}
   </button>
 );
-const Alert = ({ type = "info", className, children }: any) => {
-  const base = "p-2 rounded text-sm";
-  const color: any = {
-    info: "bg-blue-50 text-blue-800 border-blue-200 border",
-    warning: "bg-yellow-50 text-yellow-800 border-yellow-200 border",
-    error: "bg-red-50 text-red-800 border-red-200 border",
-    success: "bg-green-50 text-green-800 border-green-200 border",
-  }[type];
-  return <div className={cn(base, color, className)} role="alert">{children}</div>;
+"use client";
+import React, { useEffect, useMemo, useReducer, useState } from "react";
+
+// 型付きのクラス名結合
+function cn(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(" ");
+}
+
+type AlertKind = "info" | "warning" | "error" | "success";
+
+const ALERT_STYLES: Record<AlertKind, string> = {
+  info: "bg-blue-50 text-blue-800 border-blue-200 border",
+  warning: "bg-yellow-50 text-yellow-800 border-yellow-200 border",
+  error: "bg-red-50 text-red-800 border-red-200 border",
+  success: "bg-green-50 text-green-800 border-green-200 border",
 };
+
+type AlertProps = {
+  type?: AlertKind;
+  className?: string;
+  children?: React.ReactNode;
+};
+
+const Alert: React.FC<AlertProps> = ({ type = "info", className = "", children }) => {
+  const base = "p-2 rounded text-sm";
+  const color = ALERT_STYLES[type]; // 型安全に取得
+  return (
+    <div className={cn(base, color, className)} role="alert">
+      {children}
+    </div>
+  );
+};
+
 
 const Num = ({ label, value, onChange, min, max, step, helperText, error, ...rest }: any) => (
   <label className="flex flex-col gap-1 text-sm">
