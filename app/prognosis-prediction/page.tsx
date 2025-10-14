@@ -76,10 +76,7 @@ const Button = ({ className, children, ...rest }: any) => (
     {children}
   </button>
 );
-"use client";
-import React, { useEffect, useMemo, useReducer, useState } from "react";
-
-// 型付きのクラス名結合
+// 型付きのクラス名結合（任意）
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
@@ -108,7 +105,6 @@ const Alert: React.FC<AlertProps> = ({ type = "info", className = "", children }
     </div>
   );
 };
-
 
 const Num = ({ label, value, onChange, min, max, step, helperText, error, ...rest }: any) => (
   <label className="flex flex-col gap-1 text-sm">
