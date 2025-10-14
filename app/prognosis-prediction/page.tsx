@@ -76,10 +76,36 @@ const Button = ({ className, children, ...rest }: any) => (
     {children}
   </button>
 );
-// 型付きのクラス名結合（任意）
+// ここを唯一の cn にする（他の cn は削除）
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
+
+// UI primitives（cn の下に置く）
+type CardProps = { className?: string; children?: React.ReactNode };
+export const Card: React.FC<CardProps> = ({ className, children }) => (
+  <div className={cn("rounded border shadow-sm bg-white", className)}>{children}</div>
+);
+
+export const CardContent: React.FC<CardProps> = ({ className, children }) => (
+  <div className={cn("p-4", className)}>{children}</div>
+);
+
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  className?: string;
+  children?: React.ReactNode;
+};
+export const Button: React.FC<ButtonProps> = ({ className, children, ...rest }) => (
+  <button
+    {...rest}
+    className={cn(
+      "inline-flex items-center gap-2 rounded border px-3 py-2 text-sm hover:bg-gray-50 active:bg-gray-100",
+      className
+    )}
+  >
+    {children}
+  </button>
+);
 
 type AlertKind = "info" | "warning" | "error" | "success";
 
