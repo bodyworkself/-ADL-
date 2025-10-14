@@ -57,10 +57,10 @@ function normalizeUrl(url?: string) {
 }
 
 // ---- 小 UI ----
-export const Card: React.FC<{ className?: string }> = ({ className, children }) => (
+export const Card: React.FC<React.PropsWithChildren<{ className?: string }>> = ({ className, children }) => (
   <div className={cx("rounded border shadow-sm bg-white", className)}>{children}</div>
 );
-export const CardContent: React.FC<{ className?: string }> = ({ className, children }) => (
+export const CardContent: React.FC<React.PropsWithChildren<{ className?: string }>> = ({ className, children }) => (
   <div className={cx("p-4", className)}>{children}</div>
 );
 export const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement> & { className?: string }>
